@@ -1,0 +1,130 @@
+﻿@page "/ciudadano"
+@inject SweetAlertService Swal;
+@inject ICiudadanoService ciudadanoService;
+
+
+<h3>Ciudadano</h3>
+
+<a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nuevo ciudadano</a>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr class="table-light">
+            <th>N°</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha de nacimiento</th>
+            <th>Dui</th>
+            <th>Tipo ciudadano</th>
+            <th>Nacionalidad</th>
+            <th>Tipo documento</th>
+            <th>Telefono fijo</th>
+            <th>Telefono movil</th>          
+            <th>Correo electronico</th>
+            <th>Direccion </th>
+            <th>Bienes</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+
+        @if(listaCiudadano == null)
+        {
+            <tr>
+                <td colspan="16" align="center">
+                    <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach(var item in listaCiudadano)
+            {
+                <tr>
+                    <td>@item.Idciudadano</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.Fechanacimiento</td>
+                    <td>@item.Dui</td>
+                    <td>@item.TiposciudadanosNavigation?.Tiposciudadanos</td>
+                    <td>@item.NacionalidadNavigation?.Nacionalidad1</td>
+                    <td>@item.TipodedocumentoNavigation?.Tipodocumentos</td>
+                    <td>@item.Telefonofijio</td>
+                    <td>@item.Telefonomovil</td>
+                    <td>@item.Correoelectronico</td>
+                    <td>@item.Direccionciudadano</td>
+                    <td>@item.BienesNavigation?.Bienes</td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Idciudadano))">
+                            Editar
+                        </a>
+                    </td>                  
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+
+
+@code 
+{
+
+    private List<CiudadanoDTO>? listaCiudadano;
+
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+       listaCiudadano = await ciudadanoService.Lista();
+    }
+
+    private async Task ShowModal(int ID)
+    {
+        var options = new ModalOptions()
+            {
+                Position = ModalPosition.Middle
+            };
+
+        var parametros = new ModalParameters().Add(nameof(ModalCiudadano.idCiudadano), ID);
+
+        var modal = Modal.Show<ModalCiudadano>("Gestion Ciudadano", parametros, options);
+        var resultado = await modal.Result;
+
+        if (resultado.Confirmed)
+        {
+            if (resultado.Data.ToString() == "Ejecucion Correcta")
+            {
+                listaCiudadano = await ciudadanoService.Lista();
+            }
+        }
+
+    }
+
+    // private async Task Eliminar(int id)
+    // {
+    //     var resultado = await Swal.FireAsync(new SweetAlertOptions
+    //     {
+    //         Title = "Eliminar ciudadano",
+    //         Text = "Deseas eliminar el ciudadano?",
+    //         Icon = SweetAlertIcon.Question,
+    //         ShowCancelButton = true
+    //     });
+
+    //     if (resultado.IsConfirmed)
+    //     {
+    //         var eliminado = await ciudadanoService.Eliminar(id);
+
+    //         if (eliminado)
+    //             listaCiudadano = listaCiudadano!.FindAll(e => e.Idciudadano != id);
+    //     }
+    // }
+
+    // @onclick="(() => Eliminar(item.Idciudadano))"
+}

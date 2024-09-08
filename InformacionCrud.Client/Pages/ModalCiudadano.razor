@@ -1,0 +1,170 @@
+﻿@inject ICiudadanoService ciudadanoService;
+@inject ITipoCiudadanoService tipoCiudadanoService;
+@inject ITipoDocumentoService tipoDocumentoService;
+@inject INacionalidadService nacionalidadService;
+@inject IBienesService bienesService;
+
+<EditForm Model="ciudadano" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Nombre</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Nombre" placeholder="Agregar Nombre"></InputText>
+    </div> 
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Apellido</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Apellido" placeholder="Agregar Apellido"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">FechaNacimiento</span>
+        <InputDate class="form-control" @bind-Value="ciudadano.Fechanacimiento" style="border: 1px solid var(--color-inputs);"></InputDate>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Telefono Fijo</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Telefonofijio" placeholder="Agregar telefono fijo"></InputText>
+    </div> 
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Telefon Movil</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Telefonomovil" placeholder="Agregar telefono movil"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Correo electronico</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Correoelectronico" placeholder="Agregar Email"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">DUI</span>
+        <InputText type="text" class="form-control" @bind-Value="ciudadano.Dui" placeholder="Agregar DUI"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Direccion Ciudadano</span>
+        <InputTextArea type="text" class="form-control" @bind-Value="ciudadano.Direccionciudadano" placeholder="Agregar Direccion"></InputTextArea>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@ciudadano.Estado" />
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="ciudadano.Tiposciudadanos">
+            <option value="0">Seleccionar Tipo Ciudadanos...</option>
+            @foreach (var item in listaTiposCiudadanos)
+            {
+                <option value="@item.Idtiposciudadanos">@item.Tiposciudadanos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Documento</span>
+        <InputSelect class="form-select" @bind-Value="ciudadano.Tipodedocumento">
+            <option value="0">Seleccionar Tipo Documento...</option>
+            @foreach (var item in listaTipoDocumentos)
+            {
+                <option value="@item.Idtipodocumentos">@item.Tipodocumentos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Nacionalidad</span>
+        <InputSelect class="form-select" @bind-Value="ciudadano.Nacionalidad">
+            <option value="0">Seleccionar Nacionalidad...</option>
+            @foreach (var item in listaNacionalidad)
+            {
+                <option value="@item.Idnacionalidad">@item.Nacionalidad1</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Bienes</span>
+        <InputSelect class="form-select" @bind-Value="ciudadano.Bienes">
+            <option value="0">Seleccionar Bien...</option>
+            @foreach (var item in listaBienes)
+            {
+                <option value="@item.Idbienes">@item.Bienes</option>
+            }
+        </InputSelect>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+</EditForm>
+
+@code 
+{
+    [Parameter]
+    public int idCiudadano { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    CiudadanoDTO ciudadano = new CiudadanoDTO();
+
+    List<TiposciudadanoDTO> listaTiposCiudadanos = new List<TiposciudadanoDTO>();
+
+    List<TipodocumentoDTO> listaTipoDocumentos = new List<TipodocumentoDTO>();
+
+    List<NacionalidadDTO> listaNacionalidad = new List<NacionalidadDTO>();
+
+    List<BienesDTO> listaBienes = new List<BienesDTO>();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idCiudadano != 0)
+        {
+            ciudadano = await ciudadanoService.Buscar(idCiudadano);
+            btnTexto = "Actualizar";
+            titulo = "Editar Ciudadano";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar Ciudadano";
+            ciudadano.Estado = 1;
+        }
+
+        listaTiposCiudadanos = await tipoCiudadanoService.Lista();
+        listaTipoDocumentos = await tipoDocumentoService.Lista();
+        listaNacionalidad = await nacionalidadService.Lista();
+        listaBienes = await bienesService.Lista();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idCiudadano == 0)
+        {
+            ValorDevuelto = await ciudadanoService.Guardar(ciudadano);
+        }
+        else
+        {
+            ValorDevuelto = await ciudadanoService.Editar(ciudadano, idCiudadano);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+
+}

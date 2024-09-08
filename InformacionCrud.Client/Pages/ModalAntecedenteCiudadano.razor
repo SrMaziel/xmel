@@ -1,0 +1,166 @@
+﻿@inject IAntecedenteCiudadanoService antecedenteciudadanoService;
+@inject IDelitosService delitosService;
+@inject ITiposDelitoService tiposdelitoService;
+@inject IPenaImpuestaService penaimpuestaService;
+@inject IDetencionService detencionService;
+@inject ICiudadanoService ciudadanoService;
+
+<EditForm Model="antecentesciudadano" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+   
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="antecentesciudadano.Ciudadano">
+            <option value="0">Seleccionar Ciudadano...</option>
+            @foreach (var item in listaCiudadano)
+            {
+                <option value="@item.Idciudadano">@item.Nombre</option>
+            }
+        </InputSelect>
+
+    </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Delitos</span>
+            <InputSelect class="form-select" @bind-Value="antecentesciudadano.Delitos">
+                <option value="0">Seleccionar Delitos...</option>
+                @foreach (var item in listaDelitos)
+                {
+                    <option value="@item.Iddelitos">@item.Delitos</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Tipos Delitos</span>
+            <InputSelect class="form-select" @bind-Value="antecentesciudadano.Tiposdelitos">
+                <option value="0">Seleccionar Tipo de delito...</option>
+                @foreach (var item in listaTiposDelitos)
+                {
+                    <option value="@item.Idtiposdelitos">@item.Tiposdelitos</option>
+                }
+            </InputSelect>
+        </div>
+
+      
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Detenciones</span>
+            <InputSelect class="form-select" @bind-Value="antecentesciudadano.Detenciones">
+                <option value="0">Seleccionar Detencion...</option>
+                @foreach (var item in listaDetenciones)
+                {
+                    <option value="@item.Iddetenciones">@item.Detencion</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">FechaDelito</span>
+            <InputDate class="form-control" @bind-Value="antecentesciudadano.Fechadelito" style="border: 1px solid var(--color-inputs);"></InputDate>
+        </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Pena Impuesta</span>
+        <InputSelect class="form-select" @bind-Value="antecentesciudadano.Penaimpuesta">
+            <option value="0">Seleccionar Pena impuesta...</option>
+            @foreach (var item in listaPenaimpuesta)
+            {
+                <option value="@item.Idpenaimpuesta">@item.Penaimpuesta</option>
+            }
+        </InputSelect>
+    </div>
+   
+    
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Estado</span>
+            <input type="hidden" value="@antecentesciudadano.Estado" />
+        </div>
+
+
+   
+   
+    
+    
+    
+  
+
+    <br />
+    
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+</EditForm>
+
+@code {
+       
+    [Parameter]
+        public int idAntecedenteciudadano { get; set; } = 0;
+
+        string titulo = string.Empty;
+        string btnTexto = string.Empty;
+
+        //----------------------------------------------------------------------------------
+
+        AntecentesciudadanoDTO antecentesciudadano = new AntecentesciudadanoDTO();
+
+        List<DelitosDTO> listaDelitos = new List<DelitosDTO>();
+
+        List<TiposdelitoDTO> listaTiposDelitos = new List<TiposdelitoDTO>();
+
+    List<DetencionesDTO> listaDetenciones = new List<DetencionesDTO>();
+
+    List<PenaimpuestaDTO> listaPenaimpuesta = new List<PenaimpuestaDTO>();
+
+    List<CiudadanoDTO> listaCiudadano = new List<CiudadanoDTO>();
+
+        
+
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idAntecedenteciudadano != 0)
+        {
+            antecentesciudadano = await antecedenteciudadanoService.Buscar(idAntecedenteciudadano);
+            btnTexto = "Actualizar";
+            titulo = "Editar Antecedente";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar Antecedente";
+            antecentesciudadano.Estado = 1;
+        }
+
+        listaDelitos = await delitosService.Lista();
+        listaTiposDelitos = await tiposdelitoService.Lista();
+        listaDetenciones = await detencionService.Lista();
+        listaPenaimpuesta = await penaimpuestaService.Lista();
+        listaCiudadano = await ciudadanoService.Lista();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idAntecedenteciudadano == 0)
+        {
+            ValorDevuelto = await antecedenteciudadanoService.Guardar(antecentesciudadano);
+        }
+        else
+        {
+            ValorDevuelto = await antecedenteciudadanoService.Editar(antecentesciudadano, idAntecedenteciudadano);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+
+}
+}

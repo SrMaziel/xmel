@@ -1,0 +1,93 @@
+﻿@inject IDenunciaService denunciaService;
+
+<EditForm Model="denuncia" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denuncia</span>
+        <InputText type="text" class="form-control" @bind-Value="denuncia.Denuncia" placeholder="Agregar Denuncia"></InputText>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Denuncia</span>
+        <InputText type="text" class="form-control" @bind-Value="denuncia.Tipodenuncia" placeholder="Agregar Tipo"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denunciante</span>
+        <InputText type="text" class="form-control" @bind-Value="denuncia.Denunciante" placeholder="Agregar Denunciante"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denunciado</span>
+        <InputText type="text" class="form-control" @bind-Value="denuncia.Denunciado" placeholder="Agregar Denunciado"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@denuncia.Estado" />
+    </div>
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+
+</EditForm>
+@code {
+
+    [Parameter]
+    public int idDenuncia { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    DenunciaDTO denuncia = new DenunciaDTO();
+
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idDenuncia != 0)
+        {
+            denuncia = await denunciaService.Buscar(idDenuncia);
+            btnTexto = "Actualizar";
+            titulo = "Editar Denuncia";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar Denuncia";
+            denuncia.Estado = 1;
+        }
+
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idDenuncia == 0)
+        {
+            ValorDevuelto = await denunciaService.Guardar(denuncia);
+        }
+        else
+        {
+            ValorDevuelto = await denunciaService.Editar(denuncia, idDenuncia);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+
+}
+
+
