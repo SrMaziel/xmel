@@ -1,0 +1,104 @@
+﻿@inject IDocumentoCiudadanoService documentociudadanoService;
+@inject ICiudadanoService ciudadanoService;
+@inject ITipoDocumentoService tipodocumentoService;
+
+<EditForm Model="documentociudadano" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="documentociudadano.Ciudadano">
+            <option value="0">Seleccionar Ciudadano...</option>
+            @foreach (var item in listaCiudadano)
+            {
+                <option value="@item.Idciudadano">@item.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Documento</span>
+        <InputSelect class="form-select" @bind-Value="documentociudadano.Tipodocumento">
+            <option value="0">Seleccionar Tipodocumento...</option>
+            @foreach (var item in listaTipodocumento)
+            {
+                <option value="@item.Idtipodocumentos">@item.Tipodocumentos</option>
+            }
+        </InputSelect>
+   
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@documentociudadano.Estado" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+</EditForm>
+
+
+@code {
+    
+    [Parameter]
+    public int idDocumentociudadano { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    DocumentoCiudadanoDTO documentociudadano = new DocumentoCiudadanoDTO();
+
+    List<CiudadanoDTO> listaCiudadano = new List<CiudadanoDTO>();
+
+    List<TipodocumentoDTO> listaTipodocumento = new List<TipodocumentoDTO>();
+
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idDocumentociudadano != 0)
+        {
+            documentociudadano = await documentociudadanoService.Buscar(idDocumentociudadano);
+            btnTexto = "Actualizar";
+            titulo = "Editar documento";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar documento";
+            documentociudadano.Estado = 1;
+        }
+
+        listaCiudadano = await ciudadanoService.Lista();
+        listaTipodocumento = await tipodocumentoService.Lista();
+        
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idDocumentociudadano == 0)
+        {
+            ValorDevuelto = await documentociudadanoService.Guardar(documentociudadano);
+        }
+        else
+        {
+            ValorDevuelto = await documentociudadanoService.Editar(documentociudadano, idDocumentociudadano);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+
+    }
+}
