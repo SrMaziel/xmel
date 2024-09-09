@@ -46,6 +46,10 @@ builder.Services.AddScoped<IMetodoPenaImpuesta, MetodoPenaImpuesta>();
 
 builder.Services.AddScoped<IMetodoAntecedenteCiudadano, MetodoAntecedenteCiudadano>();
 
+builder.Services.AddScoped<IMetodoInfracciones, MetodoInfracciones>();
+
+builder.Services.AddScoped<IMetodoInfraccionesCiudadano, MetodoInfraccionesCiudadano>();
+
 //_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-|
 //activacion de cores
 

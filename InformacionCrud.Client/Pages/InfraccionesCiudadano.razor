@@ -1,0 +1,90 @@
+﻿@page "/infraccionesciudadano"
+@inject SweetAlertService Swal;
+@inject IInfraccionesCiudadanoService infraccionesciudadanoService;
+
+
+<h3>InfraccionesCiudadano</h3>
+
+<a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nueva infraccion</a>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr class="table-light">
+            <th>N°</th>
+            <th>Ciudadano</th>
+            <th>Infracciones</th>
+            <th>Costomulta</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+
+        @if (listaInfraccionesCiudadano == null)
+        {
+            <tr>
+                <td colspan="6" align="center">
+                    <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in listaInfraccionesCiudadano)
+            {
+                <tr>
+                    <td>@item.Idinfraccionesciudadano</td>
+                    <td>@item.CiudadanoNavigation?.Nombre</td>
+                    <td>@item.InfraccionesNavigation.Infracciones?</td>
+                    <td>@item.Costomulta</td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Idinfraccionesciudadano))">
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+
+@code {
+
+    private List<InfraccionesCiudadanoDTO>? listaInfraccionesCiudadano;
+
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaInfraccionesCiudadano = await infraccionesciudadanoService.Lista();
+    }
+
+    private async Task ShowModal(int ID)
+    {
+        var options = new ModalOptions()
+            {
+                Position = ModalPosition.Middle
+            };
+
+        var parametros = new ModalParameters().Add(nameof(ModalInfraccionesCiudadano.idInfraccionesciudadano), ID);
+
+        var modal = Modal.Show<ModalInfraccionesCiudadano>("Gestion Infraccion", parametros, options);
+        var resultado = await modal.Result;
+
+        if (resultado.Confirmed)
+        {
+            if (resultado.Data.ToString() == "Ejecucion Correcta")
+            {
+                listaInfraccionesCiudadano = await infraccionesciudadanoService.Lista();
+            }
+        }
+
+    }
+
+}

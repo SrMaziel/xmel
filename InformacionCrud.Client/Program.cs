@@ -32,6 +32,11 @@ builder.Services.AddScoped<IPenaImpuestaService, PenaImpuestaService>();
 builder.Services.AddScoped<IDelitosService, DelitosService>();
 
 
+builder.Services.AddScoped<IInfraccionesService, InfraccionesService>();
+
+builder.Services.AddScoped<IInfraccionesCiudadanoService, InfraccionesCiudadanoService>();
+
+
 //_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-|
 
 builder.Services.AddBlazoredModal();
