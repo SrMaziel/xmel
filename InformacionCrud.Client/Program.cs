@@ -30,6 +30,7 @@ builder.Services.AddScoped<IPenaImpuestaService, PenaImpuestaService>();
 
 
 builder.Services.AddScoped<IDelitosService, DelitosService>();
+builder.Services.AddScoped<IDocumentoCiudadanoService, DocumentoCiudadanoService>();
 
 
 builder.Services.AddScoped<IInfraccionesService, InfraccionesService>();

@@ -45,6 +45,7 @@ builder.Services.AddScoped<IMetodoDetenciones, MetodoDetenciones>();
 builder.Services.AddScoped<IMetodoPenaImpuesta, MetodoPenaImpuesta>();
 
 builder.Services.AddScoped<IMetodoAntecedenteCiudadano, MetodoAntecedenteCiudadano>();
+builder.Services.AddScoped<IMetodoDocumentoCiudadano, MetodoDocumentoCiudadano>();
 
 builder.Services.AddScoped<IMetodoInfracciones, MetodoInfracciones>();
 

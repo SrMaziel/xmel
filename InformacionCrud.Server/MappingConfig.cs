@@ -26,6 +26,7 @@ namespace InformacionCrud.Server
             CreateMap<Penaimpuestum, PenaimpuestaDTO>().ReverseMap();
 
             CreateMap<Antecedentesciudadano, AntecentesciudadanoDTO>().ReverseMap();
+            CreateMap<Documentosciudadano, DocumentoCiudadanoDTO>().ReverseMap();
 
             CreateMap<Infraccione, InfraccionesDTO>().ReverseMap();
 
