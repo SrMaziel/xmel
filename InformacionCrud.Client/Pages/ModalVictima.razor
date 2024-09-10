@@ -1,0 +1,99 @@
+﻿@inject IVictimaService victimaService;
+@inject ICiudadanoService ciudadanoService;
+
+<EditForm Model="victima" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="victima.Ciudadano">
+            <option value="0">Seleccionar Ciudadano...</option>
+            @foreach (var item in listaCiudadano)
+            {
+                <option value="@item.Idciudadano">@item.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Accidente</span>
+        <InputText type="text" class="form-control" @bind-Value="victima.Accidente" placeholder="Agregar Accidente"></InputText>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Heridas</span>
+        <InputText type="text" class="form-control" @bind-Value="victima.Heridas" placeholder="Agregar Heridas"></InputText>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@victima.Estado" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+
+
+
+</EditForm>
+@code {
+    [Parameter]
+    public int idVictima { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    VictimaDTO victima = new VictimaDTO();
+
+    List<CiudadanoDTO> listaCiudadano = new List<CiudadanoDTO>();
+
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idVictima != 0)
+        {
+            victima = await victimaService.Buscar(idVictima);
+            btnTexto = "Actualizar";
+            titulo = "Editar Victima";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar Victima";
+            victima.Estado = 1;
+        }
+
+        listaCiudadano = await ciudadanoService.Lista();
+
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idVictima == 0)
+        {
+            ValorDevuelto = await  victimaService.Guardar(victima);
+        }
+        else
+        {
+            ValorDevuelto = await victimaService.Editar(victima, idVictima);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}

@@ -51,6 +51,10 @@ builder.Services.AddScoped<IMetodoInfracciones, MetodoInfracciones>();
 
 builder.Services.AddScoped<IMetodoInfraccionesCiudadano, MetodoInfraccionesCiudadano>();
 
+builder.Services.AddScoped<IMetodoVictima, MetodoVictima>();
+builder.Services.AddScoped<IMetodoArrestopolicial, MetodoArrestopolicial>();
+
+
 //_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-|
 //activacion de cores
 

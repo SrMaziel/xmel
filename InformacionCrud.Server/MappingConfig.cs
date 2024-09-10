@@ -32,6 +32,9 @@ namespace InformacionCrud.Server
 
             CreateMap<Infraccionesciudadano, InfraccionesCiudadanoDTO>().ReverseMap();
 
-        }
+			CreateMap<Victima, VictimaDTO>().ReverseMap();
+			CreateMap<Arrestopolicial, ArrestopolicialoDTO>().ReverseMap();
+
+		}
     }
 }

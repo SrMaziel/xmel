@@ -37,6 +37,11 @@ builder.Services.AddScoped<IInfraccionesService, InfraccionesService>();
 
 builder.Services.AddScoped<IInfraccionesCiudadanoService, InfraccionesCiudadanoService>();
 
+builder.Services.AddScoped<IVictimaService, VictimaService>();
+builder.Services.AddScoped<IArrestopolicialService, ArrestopolicialService>();
+
+
+
 
 //_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-|
 

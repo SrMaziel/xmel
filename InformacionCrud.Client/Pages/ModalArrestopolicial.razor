@@ -1,0 +1,157 @@
+﻿@inject IArrestopolicialService arrestopolicialService;
+@inject ITipoCiudadanoService tipoCiudadanoService;
+@inject ICiudadanoService ciudadanoService;
+@inject IDelitosService delitosService;
+@inject IDenunciaService denunciaService;
+@inject IDetencionService detencionService;
+
+@inject IDetencionService detencionesService;
+
+<EditForm Model="arrestopolicialo" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Tipociudadano">
+            <option value="0">Seleccionar Tipo Ciudadano...</option>
+            @foreach (var item in listaTiposCiudadanos)
+            {
+                <option value="@item.Idtiposciudadanos">@item.Tiposciudadanos</option>
+            }
+        </InputSelect>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ciudadano</span>
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Ciudadano">
+            <option value="0">Seleccionar Ciudadano...</option>
+            @foreach (var item in listaCiudadano)
+            {
+                <option value="@item.Idciudadano">@item.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Delitos</span>
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Delitos">
+            <option value="0">Seleccionar Delitos...</option>
+            @foreach (var item in listaDelitos)
+            {
+                <option value="@item.Iddelitos">@item.Delitos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denunciantes</span>
+        <InputText type="text" class="form-control" @bind-Value="arrestopolicialo.Denunciantes" placeholder="Agregar Denunciantes"></InputText>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denunciados</span>
+        <InputText type="text" class="form-control" @bind-Value="arrestopolicialo.Denunciado" placeholder="Agregar Denunciado"></InputText>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Detenciones</span>
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Detencione">
+            <option value="0">Seleccionar Detencion...</option>
+            @foreach (var item in listaDetenciones)
+            {
+                <option value="@item.Iddetenciones">@item.Detencion</option>
+            }
+        </InputSelect>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Denuncia</span>
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Denuncia">
+            <option value="0">Seleccionar Denuncia...</option>
+            @foreach (var item in listaDenuncia)
+            {
+                <option value="@item.Iddenuncia">@item.Denuncia</option>
+            }
+        </InputSelect>
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int idArrestopolicial { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    ArrestopolicialoDTO arrestopolicialo = new ArrestopolicialoDTO();
+
+    List<TiposciudadanoDTO> listaTiposCiudadanos = new List<TiposciudadanoDTO>();
+
+    List<CiudadanoDTO> listaCiudadano = new List<CiudadanoDTO>();
+
+    List<DelitosDTO> listaDelitos = new List<DelitosDTO>();
+
+    List<DenunciaDTO> listaDenuncia = new List<DenunciaDTO>();
+   
+    List<DetencionesDTO> listaDetenciones = new List<DetencionesDTO>();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idArrestopolicial != 0)
+        {
+            arrestopolicialo = await arrestopolicialService.Buscar(idArrestopolicial);
+            btnTexto = "Actualizar";
+            titulo = "Editar Arresto";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar Arresto";
+            arrestopolicialo.Estado = 1;
+        }
+
+        listaTiposCiudadanos = await tipoCiudadanoService.Lista();
+        listaCiudadano = await ciudadanoService.Lista();
+        listaDelitos = await delitosService.Lista();
+        listaDenuncia = await denunciaService.Lista();
+        listaDetenciones = await detencionesService.Lista();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idArrestopolicial == 0)
+        {
+            ValorDevuelto = await arrestopolicialService.Guardar(arrestopolicialo);
+        }
+        else
+        {
+            ValorDevuelto = await arrestopolicialService.Editar(arrestopolicialo, idArrestopolicial);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}
