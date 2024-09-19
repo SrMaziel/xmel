@@ -36,7 +36,14 @@
                     <td>@item.Iddocumentosciudadanos</td>
                     <td>@item.CiudadanoNavigation?.Nombre</td>
                     <td>@item.TipodocumentoNavigation?.Tipodocumentos</td>
-                    <td>@item.Estado</td>
+                    @if (item.Estado == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
                     <td>
                         <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Iddocumentosciudadanos))">
                             Editar

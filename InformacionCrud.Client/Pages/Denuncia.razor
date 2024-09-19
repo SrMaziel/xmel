@@ -40,7 +40,14 @@
                     <td>@item.Tipodenuncia</td>
                     <td>@item.Denunciante</td>
                     <td>@item.Denunciado</td>
-                    <td>@item.Estado</td>
+                    @if (item.Estado == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
                     <td>
                         <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Iddenuncia))">
                             Editar
@@ -91,24 +98,5 @@
 
     }
 
-    // private async Task Eliminar(int id)
-    // {
-    //     var resultado = await Swal.FireAsync(new SweetAlertOptions
-    //     {
-    //         Title = "Eliminar denuncia",
-    //         Text = "Deseas eliminar la denuncia?",
-    //         Icon = SweetAlertIcon.Question,
-    //         ShowCancelButton = true
-    //     });
 
-    //     if (resultado.IsConfirmed)
-    //     {
-    //         var eliminado = await denunciaService.Eliminar(id);
-
-    //         if (eliminado)
-    //             listaDenuncia = listaDenuncia!.FindAll(e => e.Iddenuncia != id);
-    //     }
-    // }
-
-    // @onclick="(() => Eliminar(item.Iddenuncia))"
 }

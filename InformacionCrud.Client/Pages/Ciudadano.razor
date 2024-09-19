@@ -56,7 +56,14 @@
                     <td>@item.Correoelectronico</td>
                     <td>@item.Direccionciudadano</td>
                     <td>@item.BienesNavigation?.Bienes</td>
-                    <td>@item.Estado</td>
+                    @if (item.Estado == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
                     <td>
                         <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Idciudadano))">
                             Editar
@@ -107,24 +114,5 @@
 
     }
 
-    // private async Task Eliminar(int id)
-    // {
-    //     var resultado = await Swal.FireAsync(new SweetAlertOptions
-    //     {
-    //         Title = "Eliminar ciudadano",
-    //         Text = "Deseas eliminar el ciudadano?",
-    //         Icon = SweetAlertIcon.Question,
-    //         ShowCancelButton = true
-    //     });
 
-    //     if (resultado.IsConfirmed)
-    //     {
-    //         var eliminado = await ciudadanoService.Eliminar(id);
-
-    //         if (eliminado)
-    //             listaCiudadano = listaCiudadano!.FindAll(e => e.Idciudadano != id);
-    //     }
-    // }
-
-    // @onclick="(() => Eliminar(item.Idciudadano))"
 }

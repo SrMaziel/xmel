@@ -38,7 +38,14 @@
                     <td>@item.CiudadanoNavigation?.Nombre</td>
                     <td>@item.Accidente</td>
                     <td>@item.Heridas</td>
-                    <td>@item.Estado</td>
+                    @if (item.Estado == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
                     <td>
                         <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Idvictimas))">
                             Editar

@@ -36,9 +36,16 @@
                 <tr>
                     <td>@item.Idinfraccionesciudadano</td>
                     <td>@item.CiudadanoNavigation?.Nombre</td>
-                    <td>@item.InfraccionesNavigation?.Infracciones?</td>
+                    <td>@item.InfraccionesNavigation?.Infracciones</td>
                     <td>@item.Costomulta</td>
-                    <td>@item.Estado</td>
+                    @if (item.Estado == 1)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
                     <td>
                         <a class="btn btn-warning btn-sm" @onclick="@(() => ShowModal(item.Idinfraccionesciudadano))">
                             Editar

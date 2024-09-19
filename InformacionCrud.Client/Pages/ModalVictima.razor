@@ -28,9 +28,19 @@
     </div>
 
 
+    <h5>Estado victima</h5>
+
     <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Estado</span>
-        <input type="hidden" value="@victima.Estado" />
+        <div style="margin-right: 15px;">
+            <input type="radio" id="activo" name="estado" value="1" @onchange="(() => SetEstado(1))" checked="@((victima.Estado == 1))" />
+            <label for="activo">Activo</label>
+        </div>
+
+        <div>
+            <input type="radio" id="inactivo" name="estado" value="0" @onchange="(() => SetEstado(0))" checked="@((victima.Estado == 0))" />
+            <label for="inactivo">Inactivo</label>
+        </div>
+
     </div>
 
     <br />
@@ -58,6 +68,10 @@
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     //----------------------------------------------------------------------------------
+    private void SetEstado(byte estado)
+    {
+        victima.Estado = estado;
+    }
 
     protected override async Task OnInitializedAsync()
     {

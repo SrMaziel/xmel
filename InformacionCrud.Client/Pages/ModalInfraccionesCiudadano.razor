@@ -34,13 +34,20 @@
         <InputText type="text" class="form-control" @bind-Value="infraccionesciudadano.Costomulta" placeholder="Agregar Costomulta"></InputText>
     </div>
 
+    <h5>Estado infraccionesciudadano</h5>
+
     <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Estado</span>
-        <input type="hidden" value="@infraccionesciudadano.Estado" />
-    </div>
+        <div style="margin-right: 15px;">
+            <input type="radio" id="activo" name="estado" value="1" @onchange="(() => SetEstado(1))" checked="@((infraccionesciudadano.Estado == 1))" />
+            <label for="activo">Activo</label>
+        </div>
 
+      
+        </div>
+            <input type="radio" id="inactivo" name="estado" value="0" @onchange="(() => SetEstado(0))" checked="@((infraccionesciudadano.Estado == 0))" />
+            <label for="inactivo">Inactivo</label>
+            
     <br />
-
     <button type="submit" class="btn btn-success">@btnTexto</button>
 
 </EditForm>
@@ -64,6 +71,11 @@
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     //----------------------------------------------------------------------------------
+
+    private void SetEstado(byte estado)
+    {
+        infraccionesciudadano.Estado = estado;
+    }
 
     protected override async Task OnInitializedAsync()
     {

@@ -48,9 +48,19 @@
         <InputTextArea type="text" class="form-control" @bind-Value="ciudadano.Direccionciudadano" placeholder="Agregar Direccion"></InputTextArea>
     </div>
 
+    <h5>Estado ciudadano</h5>
+
     <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Estado</span>
-        <input type="hidden" value="@ciudadano.Estado" />
+        <div style="margin-right: 15px;">
+            <input type="radio" id="activo" name="estado" value="1" @onchange="(() => SetEstado(1))" checked="@((ciudadano.Estado == 1))" />
+            <label for="activo">Activo</label>
+        </div>
+
+        <div>
+            <input type="radio" id="inactivo" name="estado" value="0" @onchange="(() => SetEstado(0))" checked="@((ciudadano.Estado == 0))" />
+            <label for="inactivo">Inactivo</label>
+        </div>
+
     </div>
 
     <div class="input-group mb-3">
@@ -126,6 +136,11 @@
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     //----------------------------------------------------------------------------------
+
+    private void SetEstado(byte estado)
+    {
+        ciudadano.Estado = estado;
+    }
 
     protected override async Task OnInitializedAsync()
     {
