@@ -16,7 +16,9 @@ builder.Services.AddScoped<ICiudadanoService, CiudadanoService>();
 builder.Services.AddScoped<ITipoCiudadanoService, TipoCiudadanoService>();
 builder.Services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
 builder.Services.AddScoped<INacionalidadService, NacionalidadService>();
-builder.Services.AddScoped<IBienesService, BienesService>();
+
+
+
 builder.Services.AddScoped<IDenunciaService, DenunciaService>();
 
 builder.Services.AddScoped<IAntecedenteCiudadanoService, AntecedenteCiudadanoService>();
@@ -26,10 +28,13 @@ builder.Services.AddScoped<IDetencionService, DetencionService>();
 
 builder.Services.AddScoped<ITiposDelitoService, TiposDelitoService>();
 
+
+
 builder.Services.AddScoped<IPenaImpuestaService, PenaImpuestaService>();
-
-
 builder.Services.AddScoped<IDelitosService, DelitosService>();
+
+builder.Services.AddScoped<IBienesService, BienesService>();
+
 builder.Services.AddScoped<IDocumentoCiudadanoService, DocumentoCiudadanoService>();
 
 

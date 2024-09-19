@@ -14,12 +14,14 @@ namespace InformacionCrud.Server
             CreateMap<Nacionalidad, NacionalidadDTO>().ReverseMap();
             CreateMap<Tipodocumento, TipodocumentoDTO>().ReverseMap();
             CreateMap<Biene, BienesDTO>().ReverseMap();
+            
 
             CreateMap<Denuncium, DenunciaDTO>().ReverseMap();
 
             CreateMap<Tiposdelito, TiposdelitoDTO>().ReverseMap();
-
             CreateMap<Delito, DelitosDTO>().ReverseMap();
+
+           
 
             CreateMap<Detencione, DetencionesDTO>().ReverseMap();
 

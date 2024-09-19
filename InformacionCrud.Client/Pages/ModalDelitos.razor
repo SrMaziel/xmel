@@ -1,0 +1,92 @@
+﻿@inject IDelitosService delitosService;
+@inject ITiposDelitoService tiposdelitoService;
+
+<EditForm Model="delitos" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Delitos</span>
+        <InputText type="text" class="form-control" @bind-Value="delitos.Delitos" placeholder="Agregar Delito"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Delito</span>
+        <InputSelect class="form-select" @bind-Value="delitos.Tiposdelitos">
+            <option value="0">Seleccionar Tipo Delitos...</option>
+            @foreach (var item in listaTiposdelitos)
+            {
+                <option value="@item.Idtiposdelitos">@item.Tiposdelitos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@delitos.Estado" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+    </EditForm>
+
+@code {
+
+    [Parameter]
+    public int idDelitos { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    DelitosDTO delitos = new DelitosDTO();
+
+    List<TiposdelitoDTO> listaTiposdelitos = new List<TiposdelitoDTO>();
+
+  
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idDelitos != 0)
+        {
+            delitos = await delitosService.Buscar(idDelitos);
+            btnTexto = "Actualizar";
+            titulo = "Editar delito";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar delito";
+            delitos.Estado = 1;
+        }
+
+        listaTiposdelitos = await tiposdelitoService.Lista();
+
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idDelitos == 0)
+        {
+            ValorDevuelto = await delitosService.Guardar(delitos);
+        }
+        else
+        {
+            ValorDevuelto = await delitosService.Editar(delitos, idDelitos);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}

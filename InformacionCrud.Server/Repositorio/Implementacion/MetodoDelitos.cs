@@ -23,6 +23,53 @@ namespace InformacionCrud.Server.Repositorio.Implementacion
 
             return delitos;
         }
+        public async Task<Delito> BuscarDelitos(int ID)
+        {
+            return await _context.Delitos.FindAsync(ID);
+        }
+
+        public async Task<Delito> CrearDelitos(Delito delito)
+        {
+            try
+            {
+                await _context.Delitos.AddAsync(delito);
+                await _context.SaveChangesAsync();
+
+                return delito;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Delito> EditarDelitos(Delito delito)
+        {
+            try
+            {
+                _context.Delitos.Update(delito);
+                await _context.SaveChangesAsync();
+
+                return delito;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task BorrarDelitos(Delito delito)
+        {
+            try
+            {
+                _context.Delitos.Remove(delito);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

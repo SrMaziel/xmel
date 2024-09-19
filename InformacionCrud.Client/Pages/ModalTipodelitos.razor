@@ -1,0 +1,75 @@
+﻿@inject ITiposDelitoService tiposdelitoService;
+
+<EditForm Model="tiposdelito" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipos Delitos</span>
+        <InputText type="text" class="form-control" @bind-Value="tiposdelito.Tiposdelitos" placeholder="Agregar tipo"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@tiposdelito.Estado" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public int idTiposdelitos { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    TiposdelitoDTO tiposdelito = new TiposdelitoDTO();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idTiposdelitos != 0)
+        {
+            tiposdelito = await tiposdelitoService.Buscar(idTiposdelitos);
+            btnTexto = "Actualizar";
+            titulo = "Editar delitos";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar delitos";
+            tiposdelito.Estado = 1;
+        }
+
+    
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idTiposdelitos == 0)
+        {
+            ValorDevuelto = await tiposdelitoService.Guardar(tiposdelito);
+        }
+        else
+        {
+            ValorDevuelto = await tiposdelitoService.Editar(tiposdelito, idTiposdelitos);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}

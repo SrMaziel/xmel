@@ -31,12 +31,14 @@ builder.Services.AddScoped<IMetodoCiudadano, MetodoCiudadano>();
 builder.Services.AddScoped<IMetodoTipoCiudadano, MetodoTipoCiudadano>();
 builder.Services.AddScoped<IMetodoTipoDocumento, MetodoTipoDocumento>();
 builder.Services.AddScoped<IMetodoBienes, MetodoBienes>();
+
 builder.Services.AddScoped<IMetodoNacionalidad, MetodoNacionalidad>();
 
 
 builder.Services.AddScoped<IMetodoDenuncia, MetodoDenuncia>();
 
 builder.Services.AddScoped<IMetodoTiposDelito, MetodoTiposDelito>();
+
 
 builder.Services.AddScoped<IMetodoDelitos, MetodoDelitos>();
 
