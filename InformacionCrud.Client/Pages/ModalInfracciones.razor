@@ -1,0 +1,93 @@
+﻿@inject IInfraccionesService infraccionesService;
+
+<EditForm Model="infracciones" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Infracciones</span>
+        <InputText type="text" class="form-control" @bind-Value="infracciones.Infracciones" placeholder="Agregar Infracciones"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Infracciones</span>
+        <InputText type="text" class="form-control" @bind-Value="infracciones.Tipoinfracciones" placeholder="Agregar tipo"></InputText>
+    </div>
+    <h5>Estado Infracciones</h5>
+
+    <div class="input-group mb-3">
+        <div style="margin-right: 15px;">
+            <input type="radio" id="activo" name="estado" value="1" @onchange="(() => SetEstado(1))" checked="@((infracciones.Estado == 1))" />
+            <label for="activo">Activo</label>
+        </div>
+
+        <div>
+            <input type="radio" id="inactivo" name="estado" value="0" @onchange="(() => SetEstado(0))" checked="@((infracciones.Estado == 0))" />
+            <label for="inactivo">Inactivo</label>
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+
+
+    </EditForm>
+
+@code {
+    [Parameter]
+    public int idInfracciones { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    InfraccionesDTO infracciones = new InfraccionesDTO();
+
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    private void SetEstado(byte estado)
+    {
+        infracciones.Estado = estado;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idInfracciones != 0)
+        {
+            infracciones = await infraccionesService.Buscar(idInfracciones);
+            btnTexto = "Actualizar";
+            titulo = "Editar infracciones";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar infracciones";
+            infracciones.Estado = 1;
+        }
+
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idInfracciones == 0)
+        {
+            ValorDevuelto = await infraccionesService.Guardar(infracciones);
+        }
+        else
+        {
+            ValorDevuelto = await infraccionesService.Editar(infracciones, idInfracciones);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}

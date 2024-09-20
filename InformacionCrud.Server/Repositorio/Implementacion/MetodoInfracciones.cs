@@ -15,9 +15,60 @@ namespace InformacionCrud.Server.Repositorio.Implementacion
 
         public async Task<List<Infraccione>> ListarInfracciones()
         {
-            List<Infraccione> infracciones = await _context.Infracciones.ToListAsync();
+            List<Infraccione> infracciones = await _context.Infracciones
+                                                            .ToListAsync();
 
             return infracciones;
         }
+
+        public async Task<Infraccione> BuscarInfracciones(int ID)
+        {
+            return await _context.Infracciones.FindAsync(ID);
+        }
+
+        public async Task<Infraccione> CrearInfracciones(Infraccione infraccione)
+        {
+            try
+            {
+                await _context.Infracciones.AddAsync(infraccione);
+                await _context.SaveChangesAsync();
+
+                return infraccione;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Infraccione> EditarInfracciones(Infraccione infraccione)
+        {
+            try
+            {
+                _context.Infracciones.Update(infraccione);
+                await _context.SaveChangesAsync();
+
+                return infraccione;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task BorrarInfracciones(Infraccione infraccione)
+        {
+            try
+            {
+                _context.Infracciones.Remove(infraccione);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
+

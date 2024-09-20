@@ -31,18 +31,21 @@ builder.Services.AddScoped<ITiposDelitoService, TiposDelitoService>();
 
 
 builder.Services.AddScoped<IPenaImpuestaService, PenaImpuestaService>();
+
 builder.Services.AddScoped<IDelitosService, DelitosService>();
 
 builder.Services.AddScoped<IBienesService, BienesService>();
 
 builder.Services.AddScoped<IDocumentoCiudadanoService, DocumentoCiudadanoService>();
 
-
 builder.Services.AddScoped<IInfraccionesService, InfraccionesService>();
+
+
 
 builder.Services.AddScoped<IInfraccionesCiudadanoService, InfraccionesCiudadanoService>();
 
 builder.Services.AddScoped<IVictimaService, VictimaService>();
+
 builder.Services.AddScoped<IArrestopolicialService, ArrestopolicialService>();
 
 

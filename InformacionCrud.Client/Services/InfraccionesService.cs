@@ -1,4 +1,5 @@
 ﻿using InformacionCrud.Shared;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace InformacionCrud.Client.Services
@@ -26,5 +27,59 @@ namespace InformacionCrud.Client.Services
                 throw new Exception(result.MensajeError);
             }
         }
+
+
+        public async Task<InfraccionesDTO> Buscar(int id)
+        {
+            var result = await _http.GetFromJsonAsync<ResponseAPI<InfraccionesDTO>>($"api/Infracciones/Obtener/{id}");
+
+            if (result!.EsExitoso == true)
+            {
+                InfraccionesDTO infracciones = result.Resultado;
+
+                return infracciones;
+            }
+            else
+            {
+                throw new Exception(result.MensajeError);
+            }
+        }
+
+
+        public async Task<string> Guardar(InfraccionesDTO infracciones)
+        {
+            var result = await _http.PostAsJsonAsync("api/Infracciones/Agregar", infracciones);
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<string>>();
+
+            if (response!.CodigoEstado == HttpStatusCode.Created && response!.EsExitoso == true)
+                return response.Resultado!;
+            else
+                throw new Exception(response.MensajeError);
+        }
+
+
+        public async Task<string> Editar(InfraccionesDTO infracciones, int id)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Infracciones/Editar/{id}", infracciones);
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<string>>();
+
+            if (response!.CodigoEstado == HttpStatusCode.NoContent && response!.EsExitoso == true)
+                return response.Resultado!;
+            else
+                throw new Exception(response.MensajeError);
+        }
+
+
+        public async Task<string> Eliminar(int id)
+        {
+            var result = await _http.DeleteAsync($"api/Infracciones/Eliminar/{id}");
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<string>>();
+
+            if (response!.CodigoEstado == HttpStatusCode.NoContent && response!.EsExitoso == true)
+                return response.Resultado;
+            else
+                throw new Exception(response.MensajeError);
+        }
+
     }
 }
