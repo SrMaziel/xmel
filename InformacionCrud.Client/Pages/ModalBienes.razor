@@ -1,0 +1,74 @@
+﻿@inject IBienesService bienesService;
+
+<EditForm Model="bienes" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Bienes</span>
+        <InputText type="text" class="form-control" @bind-Value="bienes.Bienes" placeholder="Agregar Bienes"></InputText>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Estado</span>
+        <input type="hidden" value="@bienes.Estado" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+    </EditForm>
+
+@code {
+    [Parameter]
+    public int idBienes { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    BienesDTO bienes = new BienesDTO();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idBienes != 0)
+        {
+            bienes = await bienesService.Buscar(idBienes);
+            btnTexto = "Actualizar";
+            titulo = "Editar bienes";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar bienes";
+            bienes.Estado = 1;
+        }
+
+
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idBienes == 0)
+        {
+            ValorDevuelto = await bienesService.Guardar(bienes);
+        }
+        else
+        {
+            ValorDevuelto = await bienesService.Editar(bienes, idBienes);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+}

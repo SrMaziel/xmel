@@ -1,0 +1,123 @@
+﻿@inject IPenaImpuestaService penaimpuestaService;
+@inject IDelitosService delitosService;
+@inject ITiposDelitoService tiposdelitosService;
+
+<EditForm Model="penaimpuesta" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Delitos</span>
+        <InputSelect class="form-select" @bind-Value="penaimpuesta.Delitos">
+            <option value="0">Seleccionar Delitos...</option>
+            @foreach (var item in listaDelitos)
+            {
+                <option value="@item.Iddelitos">@item.Delitos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Tipo Delitos</span>
+        <InputSelect class="form-select" @bind-Value="penaimpuesta.Tiposdelitos">
+            <option value="0">Seleccionar Tipo delitos...</option>
+            @foreach (var item in listaTiposdelitos)
+            {
+                <option value="@item.Idtiposdelitos">@item.Tiposdelitos</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"></span>
+        <InputText type="text" class="form-control" @bind-Value="penaimpuesta.Penaimpuesta" placeholder="Agregar Pena"></InputText>
+    </div>
+    <h5>Estado Penaimpuesta</h5>
+
+    <div class="input-group mb-3">
+        <div style="margin-right: 15px;">
+            <input type="radio" id="activo" name="estado" value="1" @onchange="(() => SetEstado(1))" checked="@((penaimpuesta.Estado == 1))" />
+            <label for="activo">Activo</label>
+        </div>
+
+        <div>
+            <input type="radio" id="inactivo" name="estado" value="0" @onchange="(() => SetEstado(0))" checked="@((penaimpuesta.Estado == 0))" />
+            <label for="inactivo">Inactivo</label>
+        </div>
+
+    </div>
+
+
+
+
+    <br />
+
+    <button type="submit" class="btn btn-success">@btnTexto</button>
+
+    </EditForm>
+
+@code {
+    [Parameter]
+    public int idPenaimpuesta { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    //----------------------------------------------------------------------------------
+
+    PenaimpuestaDTO penaimpuesta = new PenaimpuestaDTO();
+
+    List<DelitosDTO> listaDelitos = new List<DelitosDTO>();
+
+    List<TiposdelitoDTO> listaTiposdelitos = new List<TiposdelitoDTO>();
+
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    //----------------------------------------------------------------------------------
+
+    private void SetEstado(byte estado)
+    {
+        penaimpuesta.Estado = estado;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idPenaimpuesta != 0)
+        {
+            penaimpuesta = await penaimpuestaService.Buscar(idPenaimpuesta);
+            btnTexto = "Actualizar";
+            titulo = "Editar penaimpuesta";
+        }
+        else
+        {
+            btnTexto = "Agregar";
+            titulo = "Agregar penaimpuesta";
+            penaimpuesta.Estado = 1;
+        }
+
+        listaDelitos = await delitosService.Lista();
+        listaTiposdelitos = await tiposdelitosService.Lista();
+      
+    }
+
+    private async Task OnValidSubmit()
+    {
+        string ValorDevuelto = "";
+
+        if (idPenaimpuesta == 0)
+        {
+            ValorDevuelto = await penaimpuestaService.Guardar(penaimpuesta);
+        }
+        else
+        {
+            ValorDevuelto = await penaimpuestaService.Editar(penaimpuesta, idPenaimpuesta);
+        }
+
+        if (ValorDevuelto == "Ejecucion Correcta")
+        {
+            await BlazoredModal.CloseAsync(ModalResult.Ok(ValorDevuelto));
+        }
+    }
+
+}

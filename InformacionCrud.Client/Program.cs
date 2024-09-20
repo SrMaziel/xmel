@@ -27,14 +27,13 @@ builder.Services.AddScoped<IAntecedenteCiudadanoService, AntecedenteCiudadanoSer
 builder.Services.AddScoped<IDetencionService, DetencionService>();
 
 builder.Services.AddScoped<ITiposDelitoService, TiposDelitoService>();
-
-
-
 builder.Services.AddScoped<IPenaImpuestaService, PenaImpuestaService>();
 
 builder.Services.AddScoped<IDelitosService, DelitosService>();
 
 builder.Services.AddScoped<IBienesService, BienesService>();
+
+
 
 builder.Services.AddScoped<IDocumentoCiudadanoService, DocumentoCiudadanoService>();
 
