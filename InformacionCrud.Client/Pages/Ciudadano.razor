@@ -2,12 +2,71 @@
 @inject SweetAlertService Swal;
 @inject ICiudadanoService ciudadanoService;
 
+<div class="ContenedorSuperior Ciudadano">
+    <h3>Administracion Ciudadanos</h3>
+</div>
 
-<h3>Ciudadano</h3>
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo ciudadano</a>
 
-<a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nuevo ciudadano</a>
+<div class="ContenedorTarjetas">
+    
+    @if (listaCiudadano == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaCiudadano)
+        {
+            <div class="Tarjeta">
 
-<table class="table table-striped table-hover">
+                <div class="Titulo">
+                    <h5>@item.Nombre</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li>@item.Apellido</li>
+                        <li>@item.Fechanacimiento</li>
+                        <li>@item.Dui</li>
+                        <li>@item.TiposciudadanosNavigation?.Tiposciudadanos</li>
+                        <li>@item.NacionalidadNavigation?.Nacionalidad1</li>
+                        <li>@item.TipodedocumentoNavigation?.Tipodocumentos</li>
+                        <li>@item.Telefonofijio</li>
+                        <li>@item.Telefonomovil</li>
+                        <li>@item.Correoelectronico</li>
+                        <li>@item.Direccionciudadano</li>
+                        <li>@item.BienesNavigation?.Bienes</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idciudadano))">
+                        Editar
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+@* <table class="table table-striped table-hover">
     <thead>
         <tr class="table-light">
             <th>N°</th>
@@ -75,7 +134,7 @@
 
     </tbody>
 
-</table>
+</table> *@
 
 
 
@@ -96,6 +155,7 @@
     {
         var options = new ModalOptions()
             {
+                Size = ModalSize.Large,
                 Position = ModalPosition.Middle
             };
 

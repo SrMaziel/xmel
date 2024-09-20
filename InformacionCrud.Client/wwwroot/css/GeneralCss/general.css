@@ -1,0 +1,174 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+.ContenedorSuperior
+{
+    width: 100%;
+    height: 10vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*---------------------------------------------------------------------------------------------*/
+
+.Ciudadano
+{
+    background: linear-gradient(24deg, #000000, #a04f00);
+}
+
+.Denuncia
+{
+    background: linear-gradient(24deg, #000000, #7800a0);
+}
+
+.AntecedenteC
+{
+    background: linear-gradient(24deg, #000000, #4100a0);
+}
+
+.Documentos
+{
+    background: linear-gradient(24deg, #000000, #0058a0);
+}
+
+.InfraccionesC
+{
+    background: linear-gradient(24deg, #000000, #a09100);
+}
+
+.Delitos
+{
+    background: linear-gradient(24deg, #000000, #a00000);
+}
+
+.TiposDelitos
+{
+    background: linear-gradient(24deg, #000000, #a0006a);
+}
+
+.ArrestoPolicial
+{
+    background: linear-gradient(24deg, #000000, #0a00a0);
+}
+
+.Victima
+{
+    background: linear-gradient(24deg, #000000, #00a087);
+}
+
+.Bienes
+{
+    background: linear-gradient(24deg, #000000, #59a000);
+}
+
+.PenaImpuesta
+{
+    background: linear-gradient(24deg, #000000, #4900a0);
+}
+
+/*---------------------------------------------------------------------------------------------*/
+
+.ContenedorSuperior h3
+{
+    font-family: "Raleway", sans-serif;
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.botonAgregar
+{
+    border-radius: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: transparent;
+    border: 1px solid #191919;
+    color: #181818;
+    font-family: "Raleway", sans-serif;
+}
+
+.ContenedorTarjetas
+{
+    overflow-y: scroll;
+    /*background-color: antiquewhite;*/
+    width: 100%;
+    height: 75vh;
+    padding-top: 15px;
+    display: flex;
+    gap: 30px 30px;
+    flex-wrap: wrap;
+    padding-left: 5px;
+    padding-bottom: 20px;
+}
+
+.Tarjeta
+{
+    background-color: white;
+    width: 285px;
+    height: min-content;
+    border-radius: 15px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.Titulo
+{
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #252525;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 7px;
+}
+
+.Titulo h5
+{
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    color: white;
+}
+
+.Contenido
+{
+    padding-top: 12px;
+    padding-right: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    background-color: transparent;
+    border: 1px solid #d4d4d4;
+}
+
+.Contenido ul li
+{
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    list-style: circle;
+}
+
+.Boton
+{
+    width: 100%;
+}
+
+.botonActualizar
+{
+    width: 100%;
+    border-radius: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #d4d4d4;
+    color: #181818;
+    font-family: "Raleway", sans-serif;
+}
+

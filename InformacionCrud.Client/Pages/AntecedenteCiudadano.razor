@@ -2,10 +2,65 @@
 @inject SweetAlertService Swal;
 @inject IAntecedenteCiudadanoService antecedenteciudadanoService;
 
+<div class="ContenedorSuperior AntecedenteC">
+    <h3>Administracion Antecedentes</h3>
+</div>
 
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nueva denuncia</a>
 
+<div class="ContenedorTarjetas">
 
-<h3>AntecedenteCiudadano</h3>
+    @if (listaAntecedenteciudadano == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaAntecedenteciudadano)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.CiudadanoNavigation?.Nombre</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Delitos:</strong> @item.DelitosNavigation?.Delitos</li>
+                        <li><strong>Tipo Delitos:</strong> @item.TiposdelitosNavigation?.Tiposdelitos</li>
+                        <li><strong>Detenciones:</strong> @item.DetencionesNavigation?.Detencion</li>
+                        <li><strong>Fecha Delito:</strong> @item.Fechadelito</li>
+                        <li><strong>Pena Impuesta:</strong> @item.PenaimpuestaNavigation?.Penaimpuesta</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li><strong>Activo</strong></li>
+                        }
+                        else
+                        {
+                            <li><strong>Inactivo</strong></li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idantecedentesciudadano))">
+                        Editar Denuncia
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+@* <h3>AntecedenteCiudadano</h3>
 
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nuevo antecedente</a>
 
@@ -65,7 +120,7 @@
 
     </tbody>
 
-</table>
+</table> *@
 
 @code {
     private List<AntecentesciudadanoDTO>? listaAntecedenteciudadano;
