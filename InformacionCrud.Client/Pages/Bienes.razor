@@ -6,7 +6,15 @@
     <h3>Administracion Bienes</h3>
 </div>
 
-<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo Bien</a>
+<div class="Opciones">
+
+    <a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo Bien</a>
+
+    <div class="inputBuscar">
+        <input type="text" placeholder="buscar..." />
+    </div>
+
+</div>
 
 <div class="ContenedorTarjetas">
 

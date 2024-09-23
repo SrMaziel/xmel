@@ -6,6 +6,8 @@ namespace InformacionCrud.Server.Repositorio.Interface
     {
         Task<List<Ciudadano>> ListarCiudadanos();
 
+        Task<List<Ciudadano>> ListarCiudadanosPorBusqueda(string datos);
+
         Task<Ciudadano> BuscarCiudadano(int ID);
         
         Task<Ciudadano> CrearCiudadano(Ciudadano ciudadano);

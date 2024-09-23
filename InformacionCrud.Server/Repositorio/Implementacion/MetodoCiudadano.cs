@@ -25,6 +25,35 @@ namespace InformacionCrud.Server.Repositorio.Implementacion
             return ciudadanos;
         }
 
+        public async Task<List<Ciudadano>> ListarCiudadanosPorBusqueda(string datos)
+        {
+            List<Ciudadano> ciudadanos = await _context.Ciudadanos
+                                                            .Include(b => b.BienesNavigation)
+                                                            .Include(tc => tc.TiposciudadanosNavigation)
+                                                            .Include(td => td.TipodedocumentoNavigation)
+                                                            .Include(n => n.NacionalidadNavigation)
+                                                            .ToListAsync();
+
+            if (!String.IsNullOrEmpty(datos))
+            {
+                ciudadanos = await _context.Ciudadanos.Where(
+                    
+                    c => c.Nombre!.Contains(datos) ||
+                         c.Apellido!.Contains(datos) ||
+                         c.Dui!.Contains(datos) ||
+                         c.Telefonomovil!.Contains(datos) ||
+                         c.Telefonofijio!.Contains(datos) ||
+                         c.Correoelectronico!.Contains(datos) ||
+                         c.TiposciudadanosNavigation.Tiposciudadanos!.Contains(datos) ||
+                         c.NacionalidadNavigation.Nacionalidad1!.Contains(datos) ||
+                         c.BienesNavigation.Bienes!.Contains(datos)
+
+                    ).ToListAsync();
+            }
+
+            return ciudadanos;
+        }
+
         public async Task<Ciudadano> BuscarCiudadano(int ID)
         {
             return await _context.Ciudadanos.FindAsync(ID);

@@ -80,15 +80,49 @@
     font-weight: 500;
 }
 
+.Opciones
+{
+    display: flex;
+    gap: 15px;
+    background-color: #f7f7f7;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 50px;
+    border: 1px solid #e1e1e1;
+}
+
 .botonAgregar
 {
     border-radius: 50px;
     padding-left: 15px;
     padding-right: 15px;
-    background-color: transparent;
+    background-color: white;
     border: 1px solid #191919;
     color: #181818;
     font-family: "Raleway", sans-serif;
+    height: min-content;
+}
+
+.inputBuscar
+{
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 50px;
+    border: 1px solid #191919;
+    color: #181818;
+    font-family: "Raleway", sans-serif;
+    background-color: white;
+    height: min-content;
+}
+
+.inputBuscar input
+{
+    outline: none;
+    border: none;
 }
 
 .ContenedorTarjetas
@@ -101,8 +135,41 @@
     display: flex;
     gap: 30px 30px;
     flex-wrap: wrap;
+    align-content: flex-start;
     padding-left: 5px;
     padding-bottom: 20px;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar
+{
+    -webkit-appearance: none;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar:vertical
+{
+    width: 8px;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar-button:increment, #scroll::-webkit-scrollbar-button
+{
+    display: none;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar:horizontal
+{
+    height: 10px;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar-thumb
+{
+    background-color: #eeeeee;
+    border-radius: 20px;
+    border: 1px solid #D4D4D4;
+}
+
+.ContenedorTarjetas::-webkit-scrollbar-track
+{
+    border-radius: 10px;
 }
 
 .Tarjeta
@@ -121,7 +188,7 @@
 .Titulo
 {
     width: 100%;
-    height: 40px;
+    height: auto;
     border-radius: 15px;
     background-color: #252525;
     display: flex;
@@ -135,6 +202,7 @@
     font-family: "Raleway", sans-serif;
     font-weight: 300;
     color: white;
+    text-align: center;
 }
 
 .Contenido

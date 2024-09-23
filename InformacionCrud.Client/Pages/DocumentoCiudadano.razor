@@ -6,7 +6,15 @@
     <h3>Administracion Documentos Ciudadanos</h3>
 </div>
 
-<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo documento</a>
+<div class="Opciones">
+
+    <a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo documento</a>
+
+    <div class="inputBuscar">
+        <input type="text" placeholder="buscar.." />
+    </div>
+
+</div>
 
 <div class="ContenedorTarjetas">
 

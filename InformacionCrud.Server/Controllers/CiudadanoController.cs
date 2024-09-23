@@ -51,6 +51,32 @@ namespace InformacionCrud.Server.Controllers
 
         //----------------------------------------------------------------------------------------------------
 
+        [HttpGet("Busqueda/{data}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> BusquedaCiudadanos(string data)
+        {
+            var _apiResponse = new ResponseAPI<List<CiudadanoDTO>>();
+
+            try
+            {
+                List<Ciudadano> listaCiudadano = await _ciudadano.ListarCiudadanosPorBusqueda(data);
+
+                _apiResponse.Resultado = _mapper.Map<List<CiudadanoDTO>>(listaCiudadano);
+                _apiResponse.CodigoEstado = HttpStatusCode.OK;
+                _apiResponse.EsExitoso = true;
+            }
+            catch (Exception ex)
+            {
+                _apiResponse.EsExitoso = false;
+                _apiResponse.MensajesError = new List<string>() { ex.ToString() };
+                _apiResponse.MensajeError = ex.Message;
+            }
+
+            return Ok(_apiResponse);
+        }
+
+        //----------------------------------------------------------------------------------------------------
+
         [HttpGet("Obtener/{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

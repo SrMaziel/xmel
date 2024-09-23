@@ -29,6 +29,20 @@ namespace InformacionCrud.Client.Services
             }
         }
 
+        public async Task<List<CiudadanoDTO>> Busqueda(string data)
+        {
+            var result = await _http.GetFromJsonAsync<ResponseAPI<List<CiudadanoDTO>>>($"api/Ciudadano/Busqueda/{data}");
+
+            if (result!.EsExitoso == true)
+            {
+                List<CiudadanoDTO> lista = result.Resultado;
+                return lista;
+            }
+            else
+            {
+                throw new Exception(result?.MensajeError);
+            }
+        }
 
         public async Task<CiudadanoDTO> Buscar(int id)
         {
@@ -81,6 +95,6 @@ namespace InformacionCrud.Client.Services
             else
                 throw new Exception(response.MensajeError);
         }
-       
+
     }
 }
