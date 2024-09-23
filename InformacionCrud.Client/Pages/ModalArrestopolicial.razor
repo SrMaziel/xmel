@@ -56,13 +56,13 @@
 
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Denunciados</span>
-        <InputText type="text" class="form-control" @bind-Value="arrestopolicialo.Denunciado" placeholder="Agregar Denunciado"></InputText>
+        <InputText type="text" class="form-control" @bind-Value="arrestopolicialo.Denunciados" placeholder="Agregar Denunciados"></InputText>
     </div>
 
 
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Detenciones</span>
-        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Detencione">
+        <InputSelect class="form-select" @bind-Value="arrestopolicialo.Detenciones">
             <option value="0">Seleccionar Detencion...</option>
             @foreach (var item in listaDetenciones)
             {

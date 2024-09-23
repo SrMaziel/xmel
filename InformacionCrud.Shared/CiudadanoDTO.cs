@@ -59,9 +59,9 @@ namespace InformacionCrud.Shared
 
         public int? Tipodedocumento { get; set; }
 
-
-
       
+
+
         public string? Telefonofijio { get; set; }
 
 

@@ -2,9 +2,64 @@
 @inject SweetAlertService Swal;
 @inject IVictimaService victimaService;
 
-<h3>Victima</h3>
+<div class="ContenedorSuperior Victima">
+    <h3>Administracion Victima</h3>
+</div>
+
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nueva victima</a>
+
+<div class="ContenedorTarjetas">
+
+    @if (listaVictima == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaVictima)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.CiudadanoNavigation?.Nombre</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Ciudadano:</strong>@item.CiudadanoNavigation?.Nombre</li>
+                        <li>@item.Accidente</li>
+                        <li>@item.Heridas</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idvictimas))">
+                        Editar Victima
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
 
 
+@*<h3>Victima</h3>
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nueva Victima</a>
 
 <table class="table table-striped table-hover">
@@ -57,10 +112,7 @@
 
     </tbody>
 
-</table>
-
-
-
+</table> *@
 
 
 @code {

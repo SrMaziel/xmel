@@ -34,7 +34,6 @@ namespace InformacionCrud.Shared
 
 
 
-
         public CiudadanoDTO? CiudadanoNavigation { get; set; }
 
         public InfraccionesDTO? InfraccionesNavigation { get; set; }

@@ -2,8 +2,64 @@
 @inject SweetAlertService Swal;
 @inject IInfraccionesCiudadanoService infraccionesciudadanoService;
 
+<div class="ContenedorSuperior InfraccionesC">
+    <h3>Administracion Infracciones Ciudadanos</h3>
+</div>
 
-<h3>InfraccionesCiudadano</h3>
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nueva Infraccion</a>
+
+<div class="ContenedorTarjetas">
+
+    @if (listaInfraccionesCiudadano  == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaInfraccionesCiudadano)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.InfraccionesNavigation.Infracciones</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Ciudadano:</strong> @item.CiudadanoNavigation?.Nombre</li>
+                        <li><strong>Infracciones:</strong> @item.InfraccionesNavigation?.Infracciones</li>
+                        <li><strong>Costomulta:</strong> @item.Costomulta</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idinfraccionesciudadano))">
+                        Editar Infraccion
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+
+@* <h3>InfraccionesCiudadano</h3>
 
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nueva infraccion</a>
 
@@ -57,7 +113,7 @@
 
     </tbody>
 
-</table>
+</table> *@
 
 
 @code {

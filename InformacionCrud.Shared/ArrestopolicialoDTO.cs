@@ -44,13 +44,13 @@ namespace InformacionCrud.Shared
 
 
       
-        public string? Denunciado { get; set; }
+        public string? Denunciados { get; set; }
 
 
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "El campo{0}es requerido")]
-        public int? Detencione { get; set; }
+        public int? Detenciones { get; set; }
 
 
 

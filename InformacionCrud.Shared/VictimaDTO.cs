@@ -23,9 +23,11 @@ namespace InformacionCrud.Shared
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
 		public string? Heridas { get; set; }
 
-		public ulong? Estado { get; set; }
+        public string? Victima { get; set; }
+
+        public ulong? Estado { get; set; }
 
 
 		public CiudadanoDTO? CiudadanoNavigation { get; set; }
-	}
+    }
 }

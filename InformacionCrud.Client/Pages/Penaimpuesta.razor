@@ -2,8 +2,65 @@
 @inject SweetAlertService Swal;
 @inject IPenaImpuestaService penaimpuestaService;
 
+<div class="ContenedorSuperior PenaImpuesta">
+    <h3>Administracion Pena Impuesta</h3>
+</div>
 
-<h3>Penaimpuesta</h3>
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nueva pena</a>
+
+<div class="ContenedorTarjetas">
+
+    @if (listaPenaimpuesta == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaPenaimpuesta)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.Penaimpuesta</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Delitos:</strong> @item.DelitosNavigation?.Delitos</li>
+                        <li><strong>Tipo Delitos:</strong> @item.TiposdelitosNavigation?.Tiposdelitos</li>
+                        <li><strong>Pena Impuesta:</strong> @item.Penaimpuesta</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idpenaimpuesta))">
+                        Editar Pena
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+
+
+@* <h3>Penaimpuesta</h3>
 
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nueva penaimpuesta</a>
 
@@ -50,7 +107,7 @@
 
     </tbody>
 
-</table>
+</table> *@
 
 
 @code {

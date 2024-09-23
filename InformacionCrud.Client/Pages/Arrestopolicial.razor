@@ -2,7 +2,69 @@
 @inject SweetAlertService Swal;
 @inject IArrestopolicialService arrestopolicialService;
 
-<h3>Arrestopolicial</h3>
+<div class="ContenedorSuperior ArrestoPolicial">
+    <h3>Administracion Arresto Policial</h3>
+</div>
+
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo arresto</a>
+
+<div class="ContenedorTarjetas">
+
+    @if (listaArrestopolicial == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaArrestopolicial)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.CiudadanoNavigation?.Nombre</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Tipo Ciudadano:</strong> @item.TipociudadanoNavigation?.Tiposciudadanos</li>
+                        <li><strong>Ciudadano:</strong>@item.CiudadanoNavigation?.Nombre</li>
+                        <li><strong>Delitos:</strong>@item.DelitosNavigation?.Delitos</li>
+                        <li>@item.Denunciantes</li>
+                        <li>@item.Denunciados</li>
+                        <li><strong>Detenciones:</strong>@item.DetencionesNavigation?.Detencion</li>
+                        <li>@item.Denuncia</li>
+                        @if (item.Estado == 1)
+
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Idarrestopolicial))">
+                        Editar Arresto
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+
+@* <h3>Arrestopolicial</h3>
 
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nuevo arresto</a>
 
@@ -64,7 +126,9 @@
 
     </tbody>
 
-</table>
+</table> *@
+
+
 
 @code {
 
