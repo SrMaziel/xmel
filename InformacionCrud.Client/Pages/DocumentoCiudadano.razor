@@ -2,8 +2,61 @@
 @inject SweetAlertService Swal;
 @inject IDocumentoCiudadanoService documentociudadanoService;
 
+<div class="ContenedorSuperior Documentos">
+    <h3>Administracion Documentos Ciudadanos</h3>
+</div>
 
-<h3>DocumentoCiudadano</h3>
+<a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo documento</a>
+
+<div class="ContenedorTarjetas">
+
+    @if (listaDocumentociudadano == null)
+    {
+        <tr>
+            <td colspan="16" align="center">
+                <img style="width:50px" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Floading-carregando-gif-loading-carregando-circling-discover-share-gifs--793759503068169543%2F&psig=AOvVaw2D2qTJGKeHDFxK_EN3gl6b&ust=1725256713418000&=&cd=vfe&opi=89978449&ved=" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in listaDocumentociudadano)
+        {
+            <div class="Tarjeta">
+
+                <div class="Titulo">
+                    <h5>@item.TipodocumentoNavigation?.Tipodocumentos</h5>
+                </div>
+
+                <div class="Contenido">
+
+                    <ul>
+                        <li><strong>Ciudadano:</strong> @item.CiudadanoNavigation?.Nombre</li>
+                        @if (item.Estado == 1)
+                        {
+                            <li>Activo</li>
+                        }
+                        else
+                        {
+                            <li>Inactivo</li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="Boton">
+                    <a class="btn btn-warning btn-sm botonActualizar" @onclick="@(() => ShowModal(item.Iddocumentosciudadanos))">
+                        Editar Documento
+                    </a>
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+@*<h3>DocumentoCiudadano</h3>
 
 <a class="btn btn-success btn-sm mb-3" @onclick="@(()=> ShowModal(0))">Nuevo Documento</a>
 
@@ -55,7 +108,10 @@
 
     </tbody>
 
-</table>
+</table> *@
+
+
+
 
 @code {
     private List<DocumentoCiudadanoDTO>? listaDocumentociudadano;
