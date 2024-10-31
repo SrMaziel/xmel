@@ -20,8 +20,9 @@ builder.Services.AddScoped<INacionalidadService, NacionalidadService>();
 
 
 builder.Services.AddScoped<IDenunciaService, DenunciaService>();
-
 builder.Services.AddScoped<IAntecedenteCiudadanoService, AntecedenteCiudadanoService>();
+
+
 
 
 builder.Services.AddScoped<IDetencionService, DetencionService>();

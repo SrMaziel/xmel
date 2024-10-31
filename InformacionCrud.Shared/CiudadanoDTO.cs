@@ -65,7 +65,7 @@ namespace InformacionCrud.Shared
         public string? Telefonofijio { get; set; }
 
 
-        [Required(ErrorMessage = "El campo{0} es obligatorio.")]
+        [RegularExpression(@"^[267]\d{3}-\d{4}$", ErrorMessage = "El número de teléfono no es válido. Formato esperado: ####-####")]
         public string? Telefonomovil { get; set; }
 
 

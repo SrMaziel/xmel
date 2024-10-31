@@ -9,9 +9,9 @@
 <div class="Opciones">
 
     <a class="btn btn-success btn-sm mb-3 botonAgregar" @onclick="@(()=> ShowModal(0))">Nuevo Antecedente</a>
-
+   
     <div class="inputBuscar">
-        <input type="text" placeholder="buscar..." />
+        <input type="text" @bind="ValorBusqueda" @oninput="BuscarAntecedente" placeholder="buscar..." />
     </div>
 
 </div>
@@ -131,14 +131,38 @@
 </table> *@
 
 @code {
-    private List<AntecentesciudadanoDTO>? listaAntecedenteciudadano;
+    private string ValorBusqueda = "";
 
+    private List<AntecentesciudadanoDTO>? listaAntecedenteciudadano;
+     
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
 
     protected override async Task OnInitializedAsync()
     {
         listaAntecedenteciudadano = await antecedenteciudadanoService.Lista();
+    }
+   
+    private async Task BuscarAntecedente(ChangeEventArgs e)
+    {
+        try
+        {
+            ValorBusqueda = e.Value.ToString();
+
+            if (ValorBusqueda != "")
+            {
+                listaAntecedenteciudadano = await antecedenteciudadanoService.Busqueda(ValorBusqueda);
+            }
+            else
+            {
+                listaAntecedenteciudadano = await antecedenteciudadanoService.Lista();
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"Error al realizar la solicitud: {ex.Message}");
+            throw;
+        }
     }
 
     private async Task ShowModal(int ID)

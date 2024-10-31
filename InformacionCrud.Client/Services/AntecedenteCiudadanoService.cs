@@ -29,6 +29,21 @@ namespace InformacionCrud.Client.Services
             }
         }
 
+        public async Task<List<AntecentesciudadanoDTO>> Busqueda(string data)
+        {
+            var result = await _http.GetFromJsonAsync<ResponseAPI<List<AntecentesciudadanoDTO>>>($"api/Antecedenteciudadano/Busqueda/{data}");
+
+            if (result!.EsExitoso == true)
+            {
+                List<AntecentesciudadanoDTO> lista = result.Resultado;
+                return lista;
+            }
+            else
+            {
+                throw new Exception(result?.MensajeError);
+            }
+        }
+
 
         public async Task<AntecentesciudadanoDTO> Buscar(int id)
         {

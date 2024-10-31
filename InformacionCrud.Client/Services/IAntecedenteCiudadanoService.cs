@@ -6,6 +6,8 @@ namespace InformacionCrud.Client.Services
     {
         Task<List<AntecentesciudadanoDTO>> Lista();
 
+        Task<List<AntecentesciudadanoDTO>> Busqueda(string data);
+
         Task<AntecentesciudadanoDTO> Buscar(int id);
 
         Task<string> Guardar(AntecentesciudadanoDTO antecentesciudadano);

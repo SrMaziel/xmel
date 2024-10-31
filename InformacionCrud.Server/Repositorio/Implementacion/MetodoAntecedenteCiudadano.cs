@@ -26,6 +26,31 @@ namespace InformacionCrud.Server.Repositorio.Implementacion
 
             return antecedentesciudadanos;
         }
+        public async Task<List<Antecedentesciudadano>> ListarAntecedentesPorBusqueda(string datos)
+        {
+            List<Antecedentesciudadano> antecedentesciudadanos = await _context.Antecedentesciudadanos
+                                                            .Include(c => c.CiudadanoNavigation)
+                                                            .Include(td => td.TiposdelitosNavigation)
+                                                            .Include(d => d.DelitosNavigation)
+                                                            .Include(d => d.DetencionesNavigation)
+                                                            .Include(P => P.PenaimpuestaNavigation)
+                                                            .ToListAsync();
+
+            if (!String.IsNullOrEmpty(datos))
+            {
+                antecedentesciudadanos = await _context.Antecedentesciudadanos.Where(
+
+                    c => c.CiudadanoNavigation.Nombre!.Contains(datos) ||
+                         c.DelitosNavigation.Delitos!.Contains(datos) ||
+                         c.TiposdelitosNavigation.Tiposdelitos!.Contains(datos) ||
+                         c.DetencionesNavigation.Detencion!.Contains(datos) ||
+                         c.PenaimpuestaNavigation.Penaimpuesta!.Contains(datos)
+
+                    ).ToListAsync();
+            }
+
+            return antecedentesciudadanos;
+        }
 
         public async Task<Antecedentesciudadano> BuscarAntecedenteCiudadano(int ID)
         {

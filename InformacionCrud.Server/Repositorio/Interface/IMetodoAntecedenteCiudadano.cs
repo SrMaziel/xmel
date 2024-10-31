@@ -6,6 +6,8 @@ namespace InformacionCrud.Server.Repositorio.Interface
     {
         Task<List<Antecedentesciudadano>> ListarAntecedenteCiudadano();
 
+        Task<List<Antecedentesciudadano>> ListarAntecedentesPorBusqueda(string datos);
+
         Task<Antecedentesciudadano> BuscarAntecedenteCiudadano(int ID);
 
         Task<Antecedentesciudadano> CrearAntecedenteCiudadano(Antecedentesciudadano antecedentesciudadano);

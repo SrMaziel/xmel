@@ -48,6 +48,33 @@ namespace InformacionCrud.Server.Controllers
 
             return Ok(_apiResponse);
         }
+        //----------------------------------------------------------------------------------------------------
+       
+        
+        [HttpGet("Busqueda/{data}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> BusquedaAntecedentes(string data)
+        {
+            var _apiResponse = new ResponseAPI<List<AntecentesciudadanoDTO>>();
+
+            try
+            {
+                List<Antecedentesciudadano> listaAntecedenteciudadano = await _antecedenteciudadano.ListarAntecedentesPorBusqueda(data);
+
+                _apiResponse.Resultado = _mapper.Map<List<AntecentesciudadanoDTO>>(listaAntecedenteciudadano);
+                _apiResponse.CodigoEstado = HttpStatusCode.OK;
+                _apiResponse.EsExitoso = true;
+            }
+            catch (Exception ex)
+            {
+                _apiResponse.EsExitoso = false;
+                _apiResponse.MensajesError = new List<string>() { ex.ToString() };
+                _apiResponse.MensajeError = ex.Message;
+            }
+
+            return Ok(_apiResponse);
+        }
+
 
         //----------------------------------------------------------------------------------------------------
 
